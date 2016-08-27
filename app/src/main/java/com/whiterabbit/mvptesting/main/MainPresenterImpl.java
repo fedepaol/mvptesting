@@ -34,17 +34,22 @@ public class MainPresenterImpl implements MainPresenter {
 
     @Override
     public void onResume() {
-        updateSequence();
+        updateView(mStorage.getSequence());
     }
 
     @Override
     public void onButtonClicked() {
-        long value = mStorage.getSequence() + 1;
-        mStorage.saveSequence(value);
-        updateSequence();
+        long sequence = updateAndStoreSequence();
+        updateView(sequence);
     }
 
-    private void updateSequence() {
-        mView.showValue(String.valueOf(mStorage.getSequence()));
+    public long updateAndStoreSequence() {
+        long value = mStorage.getSequence() + 1;
+        mStorage.saveSequence(value);
+        return value;
+    }
+
+    private void updateView(long sequence) {
+        mView.showValue(String.valueOf(sequence));
     }
 }
