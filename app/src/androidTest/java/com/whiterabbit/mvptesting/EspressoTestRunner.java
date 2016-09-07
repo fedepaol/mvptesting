@@ -14,28 +14,17 @@
  * limitations under the License.
  */
 
-package com.whiterabbit.mvptesting.main;
+package com.whiterabbit.mvptesting;
+
+import android.app.Application;
+import android.content.Context;
+import android.support.test.runner.AndroidJUnitRunner;
 
 
-import com.whiterabbit.mvptesting.storage.KeyValueStorage;
-
-import dagger.Module;
-import dagger.Provides;
-
-@Module
-public class MainModule {
-    private MainView mView;
-    public MainModule(MainView view) {
-        mView = view;
-    }
-
-    @Provides
-    public MainView provideMainView() {
-        return mView;
-    }
-
-    @Provides
-    public MainPresenter provideMainPresenter(MainView v, KeyValueStorage storage){
-        return new MainPresenterImpl(v, storage);
+public class EspressoTestRunner extends AndroidJUnitRunner {
+    @Override
+    public Application newApplication(ClassLoader cl, String className, Context context) throws
+            IllegalAccessException, ClassNotFoundException, InstantiationException {
+        return super.newApplication(cl, TestMvpApplication.class.getName(), context);
     }
 }
